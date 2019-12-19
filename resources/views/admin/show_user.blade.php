@@ -70,7 +70,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
               @foreach ($user as $p)
 
                 <tr>
-                    <th scope="row">{{$p->id}}</th>
+                    <th scope="row"><a href="{{route('profile.edit',$p->id)}}">{{$p->id}}</a></th>
                     <td>{{$p->name}}</td>
                     <td>{{$p->email}}</td>
                     <td>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
+use App\Models\Profile;
 use App\User;
 
 class UserController extends Controller
@@ -44,23 +45,20 @@ class UserController extends Controller
         //dd($request->all());
         $error=$request->validate([
             'email'=>'unique:users',
-            'password'=>'required|password|min:6',
-            'c_password'=>'required|password|same:password'
+            'password'=>'required|min:6',
+            'c_password'=>'required|same:password'
         ]);
-        if($error){
-            if($request->ajax()){
-                return response()->json($error , 500);
-            }else{
-                return back();
-            }
-        }
         $data = [
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
         ];
+      
         $user = User::create($data);
         $user->save();
+        $profile = Profile::create([
+            'user_id'=>$user->id,
+        ]);
         return back()->with('success', 'Add successful user');
     }
 

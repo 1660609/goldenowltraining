@@ -9,8 +9,10 @@
 </nav>
 </div>
 <div class="sidenav" style="margin-top: 40px;">
+  <h2>Dashboard</h2>
+  <hr with="100%" >
   <a href="{{route('user.index')}}">User</a>
-  <hr  width="100%" />
+  <hr  width="100%" >
   <a href="{{route('category.index')}}">Category</a>
   <hr  width="100%" />
   <a href="{{route('product.index')}}">Product</a>
