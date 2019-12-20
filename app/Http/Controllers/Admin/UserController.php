@@ -17,10 +17,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $user = User::all();
+
+        $user = User::orderBy('id');
+        if($request->nameSrc){
+            $user->where('name','like','%'.$request->nameSrc.'%');
+        }
+        if($request->emailSrc){
+            $user->where('email','like','%'.$request->emailSrc.'%');
+        }
+        $user = $user->get();
         return view('admin.show_user',compact('user'));
     }
 

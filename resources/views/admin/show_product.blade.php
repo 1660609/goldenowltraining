@@ -54,6 +54,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
       <div class="form-group">
         <input type="text" name="nameSrc" placeholder="Name product">
         <input type="text" name="descriptionSrc" placeholder="Description product">
+        <input type="text" name="contentSrc" placeholder="Content product">
         <button class="btn btn-primary">Sreach</button>
     </div>
     </form>

@@ -53,7 +53,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
       @csrf
       <div class="form-group">
         <input type="text" name="nameSrc" placeholder="Name user">
-        <input type="text" name="descriptionSrc" placeholder="Email user">
+        <input type="text" name="emailSrc" placeholder="Email user">
         <button class="btn btn-primary">Sreach</button>
     </div>
     </form>

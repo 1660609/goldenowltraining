@@ -21,7 +21,20 @@ class ProductManage extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::with('galleries')->get();
+        $products = Product::with('galleries');
+        if($request->nameSrc)
+        {
+            $products->where('name','like','%'.$request->nameSrc.'%');
+        }
+        if($request->descriptionSrc)
+        {
+            $products->where('description','like','%'.$request->descriptionSrc.'%');
+        }
+        if($request->contentSrc)
+        {
+            $products->where('content','like','%'.$request->contentSrc.'%');
+        }
+        $products = $products->get();
         $categories = Category::all();
         //dd($products);
         return view('admin.show_product',compact('products','categories'));
