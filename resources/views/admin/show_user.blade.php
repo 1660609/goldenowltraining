@@ -48,7 +48,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
         <h3>User Manage</h3>
     </div>
     <hr width="100%">
-    <button class="btn btn-primary" style="float:right;margin-right:10px" type="submit" id="addUser">+ Add Category</button>
+    <button class="btn btn-primary" style="float:right;margin-right:10px" type="submit" id="addUser">+ Add User</button>
     <form action="{{route('user.index')}}">
       @csrf
       <div class="form-group">
@@ -96,10 +96,16 @@ body {font-family: Arial, Helvetica, sans-serif;}
     </div>
 
     <div id="myModal" class="modal">
-    <form action="{{route('user.store')}}" method="POST" enctype="multipart/form-data">
-    @csrf
+    <form  id="addForm" method="POST" enctype="multipart/form-data">
+      @csrf
     <div class="modal-content">
         <span class="close">&times;</span>
+        
+        <div class="alert alert-danger print-error-msg" style="display:none">
+        <span class="close">&times;</span>
+          <ul></ul>
+      </div>
+        <div class="alert " id="message" style="display: none"></div>
         <h4>Add User </h4>
         <div class="form-group">
             <div class="input-group mb-3">
@@ -133,7 +139,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
             </div>
 
         </div>
-        <button class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </div>      
     </form>
     </div>
@@ -163,5 +169,48 @@ body {font-family: Arial, Helvetica, sans-serif;}
       }
     }
     </script> 
+
+<script type="text/javascript">
+      $(document).ready(function(){
+        $("#addForm").on('submit',function(e){
+          e.preventDefault();
+          $.ajax({
+          url: "{{route('user.store')}}",
+          type: "POST",
+          dataType:'JSON',
+          contentType: false,
+          cache: false,
+          processData: false,
+          data: new FormData(this),
+          success:  function(data) {
+            if($.isEmptyObject(data.errors)){
+              $('#message').css('display', 'block');
+              $('#message').html(data.success+" please reload page");
+              $('#message').removeClass('alert-danger')
+              $('#message').addClass('alert-success');
+              // alert(data.success);
+            }
+            else{
+              $(".print-error-msg").css('display','none');
+              $('#message').css('display', 'block');
+              $('#message').html(data.errors);
+              $('#message').addClass('alert-danger');
+            }
+            },
+            error: function(xhr, status, error) {
+              var err = JSON.parse(xhr.responseText); 
+              $('#message').css('display', 'none');
+              $(".print-error-msg").find("ul").html('');
+                $(".print-error-msg").css('display','block');
+                $.each( err.errors, function( key, value ) {
+                      $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+                  });
+                }
+          });
+        });
+      });
+
+
+    </script>
 
 @endsection

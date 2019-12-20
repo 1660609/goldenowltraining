@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\CategoryRequest;
+use Validator;
+use Response;
 
 class CategoryManage extends Controller
 {
@@ -30,14 +32,24 @@ class CategoryManage extends Controller
     {
         //
     }
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
-        //dd($request->all());
+        $validator = Validator::make($request->all(),[
+            'name'=>'required|string|max:255',
+            'description'=>'required|string|max:255',
+            'banner'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2555',
+            
+        ]);
+       
+        if($validator->fails()){
+            //dd($banner);
+            return response()->json(['errors'=>$validator->errors()->all()]);
+            
+        }
         $img = $request->file('banner');
         $filename = time().'.'.$img->getClientOriginalExtension();
         Image::make($img)->resize(780,100)->save(public_path('upload/banner/'.$filename));
         $banner = $filename ;
-        //dd($banner);
         $data = [
             'name'=>$request->name,
             'description'=>$request->description,
@@ -45,8 +57,11 @@ class CategoryManage extends Controller
         ];
         $categories = Category::create($data) ;
         $categories->save();
-        return back();
+        return response()->json(['success'=>'Add successfully category']);
+       
+        
     }
+
 
     /**
      * Display the specified resource.
@@ -70,7 +85,7 @@ class CategoryManage extends Controller
         $category = Category::find($id);
         if($request->file('banner'))
         {
-            $error = $request->validate([
+            $errors = $request->validate([
                 'banner'=>'image|mimes:jpeg,png,jpg,gif,svg|max:6048'
             ]);
             $img = $request->file('banner');

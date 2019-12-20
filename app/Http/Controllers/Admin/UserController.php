@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use App\Models\Profile;
 use App\User;
+use Validator;
 
 class UserController extends Controller
 {
@@ -43,11 +44,15 @@ class UserController extends Controller
     {
         //
         //dd($request->all());
-        $error=$request->validate([
+        $validator = Validator::make($request->all(),[
             'email'=>'unique:users',
             'password'=>'required|min:6',
             'c_password'=>'required|same:password'
         ]);
+        if($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
         $data = [
             'name'=>$request->name,
             'email'=>$request->email,
@@ -59,7 +64,7 @@ class UserController extends Controller
         $profile = Profile::create([
             'user_id'=>$user->id,
         ]);
-        return back()->with('success', 'Add successful user');
+        return response()->json(['success'=>'Add successfully user']);
     }
 
     /**

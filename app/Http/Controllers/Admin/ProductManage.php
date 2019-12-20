@@ -10,6 +10,8 @@ use App\Models\Gallery;
 use App\Http\Requests\ProductRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
+use Validator;
+
 class ProductManage extends Controller
 {
     /**
@@ -80,7 +82,7 @@ class ProductManage extends Controller
                 }   
             }
         }
-        return back()->with('success','Add successfully product');
+        return response()->json(['success'=>'Add successfull product']);
     }
 
     /**

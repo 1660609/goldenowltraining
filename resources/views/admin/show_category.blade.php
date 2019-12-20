@@ -96,10 +96,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
     </div>
 
     <div id="myModal" class="modal">
-    <form action="{{route('category.store')}}"  method="POST" enctype="multipart/form-data">
+      <div class="modal-dialog">
+    <form id="addForm" class="form-horizontal" method="POST" role="form" enctype="multipart/form-data">
     @csrf
     <div class="modal-content">
         <span class="close">&times;</span>
+        <div class="alert " id="message" style="display: none"></div>
         <h4>Add Category </h4>
         <div class="form-group">
             <div class="input-group mb-3">
@@ -107,66 +109,75 @@ body {font-family: Arial, Helvetica, sans-serif;}
                     <span class="input-group-text" >Name</span>
                 </div>
                 <input type="text" class="form-control" name="name" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-            </div>
+              </div>
+                
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text"  id="inputGroup-sizing-default">Description</span>
                 </div>
                 <input type="text" class="form-control" name="description" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-            </div>
+                
+              </div>
+              <p class="error text-center alert alert-danger" hidden></p>
             <div class="input-group">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile04" name="banner">
-                <label class="custom-file-label" for="inputGroupFile04">Choose image banner</label>
+            <div class="form-group">
+              <label>Chọn ảnh</label>
+              <br>
+              <input type="file" name="banner">
             </div>
             </div>
+            <p class="error text-center alert alert-danger " hidden></p>
         </div>
-        <button class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary btn-submit">Submit</button>
     </div>      
+  </div>
     </form>
     </div>
-    <script>
+    <script type="text/javascript">
+
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("addCategory");
     var span = document.getElementsByClassName("close")[0];
     btn.onclick = function() {
-      modal.style.display = "block";
+      modal.style.display = "block"; 
     }
     span.onclick = function() {
       modal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
+    }  
     </script>
+
+
     <script type="text/javascript">
-      $(document).ready(function() {
-    $('#loginForm').bootstrapValidator({
-        feedbackIcons: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            name: {
-                validators: {
-                    notEmpty: {
-                        message: 'The username is required'
-                    }
-                }
-            },
-            password: {
-                validators: {
-                    notEmpty: {
-                        message: 'The password is required'
-                    }
-                }
+      $(document).ready(function(){
+        $("#addForm").on('submit',function(e){
+          // alert(description);
+          e.preventDefault();
+          $.ajax({
+          url: "{{route('category.store')}}",
+          type: "POST",
+          dataType:'JSON',
+          contentType: false,
+          cache: false,
+          processData: false,
+          data: new FormData(this),
+          success:  function(data) {
+            if($.isEmptyObject(data.errors))
+            {
+              $('#message').css('display', 'block');
+              $('#message').html(data.success);
+              $('#message').addClass('alert-success');
             }
-        }
+            else{
+              $('#message').css('display', 'block');
+              $('#message').html(data.errors);
+              $('#message').addClass('alert-danger');
+            }},
+        });
+      });
     });
-});
-Setting op
-  </script>
+  
+
+    </script>
+
+
 @endsection

@@ -98,7 +98,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                         @csrf
                         <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('You want to delete the product {{$product->name}}')">
                           <span class="octicon-pencil"></span> Delete
-                        </button>
+                        </button> 
                       </form>
                     </td>
                 </tr>
@@ -108,10 +108,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
     </div>
 
     <div id="myModal" class="modal">
-    <form action="{{route('product.store')}}" method="POST" enctype="multipart/form-data">
+    <form id="addForm" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="modal-content">
         <span class="close">&times;</span>
+        <div class="alert alert-danger print-error-msg" style="display:none">
+          <ul></ul>
+      </div>
+        <div class="alert " id="message" style="display: none"></div>
         <h4>Add Product </h4>
         <div class="form-group">
             <div class="input-group mb-3">
@@ -162,7 +166,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 <input type="number" class="form-control" name="price" aria-label="Default" aria-describedby="inputGroup-sizing-default">
             </div>
         </div>
-        <button class="btn btn-primary">Add product</button>
+        <button type="submit" class="btn btn-primary">Add product</button>
     </div>      
     </form>
     </div>
@@ -182,4 +186,38 @@ body {font-family: Arial, Helvetica, sans-serif;}
       }
     }
     </script>
+    <script type="text/javascript">
+    $('#addForm').on('submit',function(e){
+      e.preventDefault();
+      $.ajax({
+        url: "{{route('product.store')}}",
+        type: "POST",
+        dataType:'JSON',
+        contentType: false,
+        cache: false,
+        processData: false,
+        data: new FormData(this),
+        success: function(data){
+          if(data.success){
+            $('#message').css('display', 'block');
+            $('.print-error-msg').css("display","none")
+              $('#message').html(data.success+" please reload page");
+              $('#message').removeClass('alert-danger')
+              $('#message').addClass('alert-success');
+          }
+        },
+        error: function(xhr,status, error){
+          var err = JSON.parse(xhr.responseText);
+          $('#message').css('display', 'block');
+          $(".print-error-msg").find("ul").html('');
+            $(".print-error-msg").css('display','block');
+            $.each( err.errors, function( key, value ) {
+                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+            });
+        },
+      })
+
+    })
+
+      </script>
 @endsection

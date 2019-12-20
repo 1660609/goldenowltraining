@@ -20,11 +20,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix'=>'admin'],function(){
+
     Route::resource('/product','Admin\ProductManage');
     Route::resource('/category','Admin\CategoryManage');
     Route::resource('/user','Admin\UserController');
     Route::get('/product/deleteGallery/{id}','Admin\ProductManage@deleteGallery')->name('product.delete.gallery');
     Route::resource('/profile','Admin\ProfileController');
+    // 
 });
-
+Route::get('/category/addCategory','Admin\CategoryManage@addCategory')->name('category.add');
 
