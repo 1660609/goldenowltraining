@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix'=>'admin'],function(){
+Route::group(['prefix'=>'admin','middleware'=>'auth:web'],function(){
 
     Route::resource('/product','Admin\ProductManage');
     Route::resource('/category','Admin\CategoryManage');

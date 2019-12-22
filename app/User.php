@@ -38,6 +38,6 @@ class User extends Authenticatable
     ];
     public function profile()
     {
-        return hasOne('App\Models\Profile');
+        return $this->hasOne('App\Models\Profile');
     }
 }

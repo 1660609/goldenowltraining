@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\CategoryRequest;
+use Auth;
 use Validator;
 use Response;
 
@@ -15,7 +16,6 @@ class CategoryManage extends Controller
     public function index(Request $request)
     {
         //
-        
         $data = Category::orderBy('id');
         if($request->nameSrc)
         {
