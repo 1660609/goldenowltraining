@@ -1,5 +1,7 @@
 @extends('layouts.master')
-
+@section('sidebar')
+  @include('layouts.sidebar')
+@endsection
 @section('content')
 <h3>Edit Category <h3>
 <hr width="100%">

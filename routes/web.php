@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'User\ProductAppController@index')->name('/');
 
 Auth::routes();
 
@@ -28,5 +26,9 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:web'],function(){
     Route::resource('/profile','Admin\ProfileController');
     // 
 });
-Route::get('/category/addCategory','Admin\CategoryManage@addCategory')->name('category.add');
+Route::group(['prefix'=>'/'],function(){
+    Route::resource('productApp','User\ProductAppController');
+    Route::resource('search','User\SearchController');
+    Route::resource('categoryList','User\CategoryListController');
+});
 

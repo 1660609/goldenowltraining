@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('sidebar')
+  @include('layouts.sidebar')
+@endsection
 @section ('css')
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}

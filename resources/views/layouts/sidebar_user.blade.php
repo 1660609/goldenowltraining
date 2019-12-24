@@ -1,14 +1,15 @@
 @section('title')
-    Admin
+    Product App
 @endsection
 <div  class="header">
-<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" style="position: fixed;width: 100%;padding: 0px;z-index: 999;height:65px">
-
-  <a class="navbar-brand" href="/" style="font-size:xx-large;">Admin Manage</a>
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" style="position: fixed;width: 100%;padding: 0px;z-index: 999;height:67px">
+    
+  <a class="navbar-brand" href="/" style="font-size:xx-large;"> <img src="/upload/icon/icon_app.jpg" style="width: 55px;height: 50px;">Products App</a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-    <form class="form-inline my-2 my-lg-0" style="margin-left: 180px;">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" style="width: 800px;" aria-label="Search">
+    <form class="form-inline my-2 my-lg-0" action="{{route('search.index')}}" method="get" style="margin-left: 180px;">
+    @csrf
+        <input class="form-control mr-sm-2" type="search" name="key" placeholder="Search" value="{{$key ?? ''}}" style="width: 800px;" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
 
@@ -61,15 +62,10 @@
   </div>
 </nav>
 </div>
-
-<div class="sidenav" style="margin-top: 40px;text-align: center;">
-  <h2>Dashboard</h2>
-  
-  <hr with="100%" >
-  <a href="{{route('user.index')}}">User</a>
-  <hr  width="100%" >
-  <a href="{{route('category.index')}}">Category</a>
-  <hr  width="100%" />
-  <a href="{{route('product.index')}}">Product</a>
-  <hr  width="100%" />
-</div>
+<div class="sidenav" style="margin-top: 69px;width: 11.8%;background-color:lightskyblue;text-align: center;">
+    <h1>Menu</h1>
+    @foreach($category as $cate)
+    <hr with="100%" >
+    <a href="{{route('categoryList.show',$cate->id)}}">{{$cate->name}}</a>
+    @endforeach
+  </div>
