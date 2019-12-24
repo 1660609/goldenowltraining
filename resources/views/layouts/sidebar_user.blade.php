@@ -16,6 +16,10 @@
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
+            <a href="{{route('cart.show',Auth::user()->id)}}" style="height: 50px;margin-top: 8px;" class="notification">
+                <img src="/upload/icon/cart.png" width="40px" height="40px">
+                <span class="badge">{{$countCart ?? ''}}</span>
+            </a>
             @guest
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>

@@ -36,9 +36,7 @@
     </p>
     <div class="product_meta">
         <span class="posted_in"> <strong>Categories:</strong> 
-            @if($product->category)
-            <a rel="tag" href="#">{{$product->category->name}}</a>
-            @endif
+            <a rel="tag" href="{{route('categoryList.show',$product->category_id)}}">{{$product->category->name}}</a>
     </div>
     <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old">{{$product->price}} </span><strong>VND </strong>  </div>
     <div class="form-group">
@@ -46,7 +44,12 @@
         <input type="number" placeholder="1">
     </div>
     <p>
-        <button class="btn btn-round btn-danger" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+        <form action="{{route('cart.store')}}" method="POST">
+            @csrf
+            <input type="hidden" value="{{$product->id}}" name="id" >
+            <button class="btn btn-round btn-danger" type="submit">Add to Cart</button>
+        </form>
+
         <button class="btn btn-round btn-success" type="button"><i class="fa fa-shopping-cart"></i> Buy Product</button>
     </p>
 </div>
