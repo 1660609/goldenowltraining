@@ -15,6 +15,7 @@ class CreateTableCart extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('number_product')->nullable();
+            $table->integer('price')->nullable();
             $table->timestamps();
         });
     }

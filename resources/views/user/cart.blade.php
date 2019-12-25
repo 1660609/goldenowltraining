@@ -81,9 +81,9 @@
                              </td>
                              <td>In stock</td>
                              <td>
-                                <input type="number" class="form-control text-center" value="1" min="0" width="100px">
+                                <input type="number" class="numberProduct" id="{{$cart->id}}" value="{{$cart->number_product}}" style="text-align: center;" min="0" width="100px">
                               </td>
-                             <td class="text-right">{{number_format($cart->product->price,3) }} VNĐ</td>
+                             <td class="text-right">{{number_format($cart->price,3) }} VNĐ</td>
                              <td class="text-right">
                                  <form action="{{route('cart.destroy',$cart->id)}}" method="POST">
                                     @method('DELETE') 
@@ -117,4 +117,12 @@
         </div>
     </div>
 </div>
+<!-- <script type="text/javascript">
+$(document).ready(function(){
+    $('input#numberProduct').on('change',function(){
+       var id = $(this).parent.find("input").attr("id");
+       alert('123');
+    })
+})
+</script> -->
 @endsection

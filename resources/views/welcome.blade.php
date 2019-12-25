@@ -16,9 +16,7 @@
       <div class="card-body">
         <h5 class="card-title"><a href="{{route('productApp.show',$pro->id)}}">{{$pro->name}}</a></h5>
         <p class="card-text">{{$pro->description}}</p>
-        <p class="card-text">{{$pro->price}}</p>
-        <a href="#" class="btn btn-primary">+ Add</a>
-        <a href="#" class="btn btn-primary">+ Buy</a>
+        <p class="card-text">{{number_format($pro->price,3) }} VND</p>
       </div>
     </div>
     @endforeach

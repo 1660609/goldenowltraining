@@ -30,7 +30,11 @@ class AppServiceProvider extends ServiceProvider
         //
         view()->composer('layouts.sidebar_user',function($view){
             $category = Category::all();
-            $countCart = Cart::where('user_id',Auth::user()->id)->count('user_id');
+            $countCart = "";
+            if(Auth::check())
+            {
+                $countCart = Cart::where('user_id',Auth::user()->id)->count('user_id');
+            }
             $view->with(['category'=>$category,'countCart'=>$countCart]);
         });
         view()->composer('user.result_product',function($view){

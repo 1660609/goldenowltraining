@@ -38,17 +38,19 @@
         <span class="posted_in"> <strong>Categories:</strong> 
             <a rel="tag" href="{{route('categoryList.show',$product->category_id)}}">{{$product->category->name}}</a>
     </div>
-    <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old">{{$product->price}} </span><strong>VND </strong>  </div>
+    <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old">{{number_format($product->price,3) }} </span><strong>VND </strong>  </div>
+    <form action="{{route('cart.store')}}" method="POST">
+    @csrf
     <div class="form-group">
-        <label>Quantity</label>
-        <input type="number" placeholder="1">
+        <label>Quantity : </label>
+
+        <input type="number" name="number" value="1" min="0">
     </div>
     <p>
-        <form action="{{route('cart.store')}}" method="POST">
-            @csrf
+            <input type="hidden" value="{{$product->price}}" name="price" >
             <input type="hidden" value="{{$product->id}}" name="id" >
             <button class="btn btn-round btn-danger" type="submit">Add to Cart</button>
-        </form>
+    </form>
 
         <button class="btn btn-round btn-success" type="button"><i class="fa fa-shopping-cart"></i> Buy Product</button>
     </p>

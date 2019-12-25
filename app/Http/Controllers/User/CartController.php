@@ -16,9 +16,19 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:web');
+    }
     public function index()
     {
         //
+        $cart = Cart::with('product')->where('user_id',Auth::user()->id)->get();
+            $total = Cart::where('user_id',Auth::user()->id)->sum('price');
+            $total = number_format($total,3);
+        return view('user.cart',compact('cart','total'));
+
+
     }
 
     /**
@@ -46,13 +56,34 @@ class CartController extends Controller
             return back()->with('error','Not found Product');
 
         }
+        $check = Cart::where('user_id',Auth::user()->id)->where('product_id',$request->id)->first();
+        //dd($check);
+        
+        if($check != null)
+        {
+            $number = Cart::where('user_id',Auth::user()->id)->where('product_id',$request->id)->first();
+        
+            //dd($number->number_product);
+            $sum = $number->number_product + $request->number; 
+            $total = $number->price + ($request->number*$request->price);
+            $cart = Cart::where('user_id',Auth::user()->id)
+            ->where('product_id',$request->id)->update(['number_product'=>$sum,'price'=>$total]);
+            return back()->with('success','Add successfull cart');
+
+        }
+
+        
+        $total = ($request->price*$request->number);
         $data = [
             'user_id'=>Auth::user()->id,
             'product_id'=>$request->id,
-           // 'number_product'=>$request->number
+            'number_product'=> $request->number,
+            'price'=>$total,
         ];
         $cart = Cart::create($data);
         $cart->save();
+        
+
         return back()->with('success','Add successfull cart');
     }
 
@@ -65,12 +96,12 @@ class CartController extends Controller
     public function show($id)
     {
         //
-
-        $cart = Cart::with('product')->where('user_id',$id)->get();
-        $total = Product::whereHas('cart')->sum('price');
-        $total = number_format($total,3);
-        //dd($total);
-        //dd($cart);
+        if(Auth::check())
+        {
+            $cart = Cart::with('product')->where('user_id',$id)->get();
+            $total = Product::whereHas('cart')->sum('price');
+            $total = number_format($total,3);
+        }
         return view('user.cart',compact('cart','total'));
 
 
@@ -97,6 +128,12 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $priceProduct = Product::find($request->product_id);
+        $total = $request->number*$priceProduct->price;
+        $cart = Cart::find($id);
+        $cart->update('price',$total);
+        return response()->json(['success']);
+        
     }
 
     /**
@@ -107,7 +144,6 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
 
         $cart = Cart::find($id);
         $cart->delete();
