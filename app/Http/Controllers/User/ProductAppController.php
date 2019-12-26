@@ -47,10 +47,9 @@ class ProductAppController extends Controller
      */
     public function show($id)
     {
-        //
         $product = Product::with('galleries','category')->find($id);
-        //dd($product);
-        return view('user.detail',compact('product'));
+        $seeMore = Product::where('category_id',$product->category_id)->get();
+        return view('user.detail',compact('product','seeMore'));
     }
 
     /**

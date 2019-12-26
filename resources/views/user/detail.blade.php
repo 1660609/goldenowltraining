@@ -2,6 +2,24 @@
 @section('sidebar')
     @include('layouts.sidebar_user')
 @endsection
+@section('css')
+<style>
+div.scrollmenu {
+  background-color: lightcyan;
+  overflow: auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: darkslateblue;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+</style>
+@endsection
 @section('poster')
     @include('layouts.poster')
 @endsection
@@ -43,18 +61,45 @@
     @csrf
     <div class="form-group">
         <label>Quantity : </label>
-
         <input type="number" name="number" value="1" min="0">
     </div>
-    <p>
-            <input type="hidden" value="{{$product->price}}" name="price" >
-            <input type="hidden" value="{{$product->id}}" name="id" >
-            <button class="btn btn-round btn-danger" type="submit">Add to Cart</button>
+        <input type="hidden" value="{{$product->price}}" name="price" >
+        <input type="hidden" value="{{$product->id}}" name="id" >
+        <button class="btn btn-round btn-danger" type="submit">Add to Cart</button>
     </form>
+    <button class="btn btn-round btn-success" type="button">Buy Product</button>
+</div>
 
-        <button class="btn btn-round btn-success" type="button"><i class="fa fa-shopping-cart"></i> Buy Product</button>
-    </p>
 </div>
 </div>
-</div>
+        <div class="container"> 
+  
+            <h1 style="text-align:center;color:green;">  
+            See More
+        </h1> 
+            <div  class="scrollmenu"> 
+                <div class="row flex-row flex-nowrap"> 
+                    @foreach($seeMore as $sm)
+                    <div class="card col-12 col-sm-6 col-md-4 col-lg-3" style="width: 300px;" >
+                        <a href="{{route('productApp.show',$sm->id)}}">
+                        <img class="card-img-top" src="/upload/thumbnail/{{$sm->thumbnail}}" style="height: 250px;" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{$sm->name}}</h5>
+                            <p class="card-text">{{$sm->description}}</p>
+                            <p class="card-text">{{$sm->price}}</p>
+                            <form action="{{route('cart.store')}}" method="POST">
+                            @csrf
+                            <input type="number" name="number" value="1" min="0" hidden>
+                            <input type="hidden" value="{{$sm->price}}" name="price" >
+                            <input type="hidden" value="{{$sm->id}}" name="id" >
+                            <button class="btn btn-primary" style="float: left;" type="submit">Add to Cart</button>
+                            </form>
+                        </div>
+                    </a>
+                        </div>
+                    @endforeach
+                </div> 
+            </div> 
+        </div> 
+        
 @endsection

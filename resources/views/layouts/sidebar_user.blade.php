@@ -1,8 +1,9 @@
 @section('title')
     Product App
 @endsection
+
 <div  class="header">
-<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" style="position: fixed;width: 100%;padding: 0px;z-index: 999;height:67px">
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" style="position: fixed;width: 100%;padding: 0px;z-index: 997;height:67px">
     
   <a class="navbar-brand" href="/" style="font-size:xx-large;"> <img src="/upload/icon/icon_app.jpg" style="width: 55px;height: 50px;">Products App</a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -60,18 +61,32 @@
     </div>
     </div>
 </nav>
-        
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  </div>
 </nav>
 </div>
-<div class="sidenav" style="margin-top: 69px;width: 11.8%;background-color:lightskyblue;text-align: center;">
-    <h1>Menu</h1>
-    @foreach($category as $cate)
-    <hr with="100%" >
-    <a href="{{route('categoryList.show',$cate->id)}}">{{$cate->name}}</a>
-    @endforeach
-  </div>
+
+<div class="sidenav" style="background-color:white;">
+    <!--Navbar-->
+<nav class="navbar navbar-light light-blue lighten-4">
+    <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+      aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">Menu <span class="dark-blue-text"><i
+          class="fas fa-bars fa-1x"></i></span></button>
+  
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+  
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto" style="background-color: lightblue;width: 190px;">
+        @foreach($category as $cate)
+        <li class="nav-item active">
+            <a href="{{route('categoryList.show',$cate->id)}}">{{$cate->name}}<span class="sr-only">(current)</span></a>
+        </li>
+        @endforeach
+      </ul>
+      <!-- Links -->
+  
+    </div>
+    <!-- Collapsible content -->
+  
+  </nav>
+  <!--/.Navbar-->
+</div>

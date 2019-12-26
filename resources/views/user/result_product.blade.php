@@ -3,7 +3,7 @@
     @include('layouts.sidebar_user')
 @endsection
 @section('content')
-<div style="margin-top: 200px;margin-left: 180px;">
+<div style="margin-top: 30px;margin-left: 180px;">
   <form class="form-inline my-2 my-lg-0" action="{{route('search.index')}}" method="get" style="margin-left: 180px;float:right;">
     @csrf
         <input class="form-control mr-sm-2" type="number" name="keyPrice" placeholder="Price" value="{{$keyPrice ?? ''}}">
@@ -31,8 +31,15 @@
         <h5 class="card-title"><a href="{{route('productApp.show',$pro->id)}}">{{$pro->name}}</a></h5>
         <p class="card-text">{{$pro->description}}</p>
         <p class="card-text">{{$pro->price}}</p>
-        <a href="#" class="btn btn-primary">+ Add</a>
-        <a href="#" class="btn btn-primary">+ Buy</a>
+        
+        <form action="{{route('cart.store')}}" method="POST">
+          @csrf
+            <input type="number" name="number" value="1" min="0" hidden>
+            <input type="hidden" value="{{$pro->price}}" name="price" >
+            <input type="hidden" value="{{$pro->id}}" name="id" >
+            <button class="btn btn-primary" style="float: left;" type="submit">Add to Cart</button>
+          </form>
+          <a href="#" class="btn btn-success" style="float: right;">Buy</a>
       </div>
     </div>
     @endforeach

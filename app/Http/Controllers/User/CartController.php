@@ -24,8 +24,10 @@ class CartController extends Controller
     {
         //
         $cart = Cart::with('product')->where('user_id',Auth::user()->id)->get();
-            $total = Cart::where('user_id',Auth::user()->id)->sum('price');
-            $total = number_format($total,3);
+        $total = Cart::where('user_id',Auth::user()->id)->sum('price');
+        $total = number_format($total,3);
+        
+       //$product = Produce::where('category_id',$cart->)
         return view('user.cart',compact('cart','total'));
 
 
@@ -127,12 +129,19 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $priceProduct = Product::find($request->product_id);
-        $total = $request->number*$priceProduct->price;
-        $cart = Cart::find($id);
-        $cart->update('price',$total);
-        return response()->json(['success']);
+            //dd($request->all());
+            $priceProduct = Product::find($request->product_id);
+            $total = $request->number*$priceProduct->price;
+            //dd($total);
+            $cart = Cart::find($id);
+            $cart->update(['price'=>$total,'number_product'=>$request->number]);
+            $cart['price'] = number_format($cart->price,3) ;
+
+            $total = Cart::where('user_id',Auth::user()->id)->sum('price');
+            $total = number_format($total,3);
+
+            
+        return response()->json(['success'=>$cart,'total'=>$total]);
         
     }
 

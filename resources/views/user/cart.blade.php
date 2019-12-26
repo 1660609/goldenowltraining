@@ -56,6 +56,12 @@
 </style>
 @endsection
 @section('content')
+<div class="header" style="margin-left: 200px;">
+    <h1>MY CART</h1>
+    <div class="form-group">
+        
+    </div>
+</div>
 <div class="container mb-4">
     <div class="row">
         <div class="col-12">
@@ -63,6 +69,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>Select</th>
                             <th scope="col"> </th>
                             <th scope="col">Name Product</th>
                             <th scope="col">Available</th>
@@ -73,7 +80,10 @@
                     </thead>
                     <tbody>
                             @foreach($cart as $cart)
-                            <tr>
+                            <tr id="$cart->id">
+                             <td> 
+                                 <input type="checkbox" name="vehicle" value="" checked="checked" >
+                            </td>
                              <td><img src="/upload/thumbnail/{{$cart->product->thumbnail}}" width="70px" height="70px"/> </td>
                              <td><a href="{{route('productApp.show',$cart->product->id)}}">{{$cart->product->name}}</a>
                                 <p>{{$cart->product->description}}</p>
@@ -81,9 +91,15 @@
                              </td>
                              <td>In stock</td>
                              <td>
-                                <input type="number" class="numberProduct" id="{{$cart->id}}" value="{{$cart->number_product}}" style="text-align: center;" min="0" width="100px">
-                              </td>
-                             <td class="text-right">{{number_format($cart->price,3) }} VNĐ</td>
+                                <form method="POST" id="numberForm">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="number" name="number" class="number" product_id="{{$cart->product_id}}" id="{{$cart->id}}" value="{{$cart->number_product}}" style="text-align: center;" min="1" width="100px">
+                                </form>
+                            </td>
+                             <td class="text-right" name="number" id="number30">
+                                 <p id="number{{$cart->id}}">{{number_format($cart->price,3) }} VNĐ</p>
+                            </td>
                              <td class="text-right">
                                  <form action="{{route('cart.destroy',$cart->id)}}" method="POST">
                                     @method('DELETE') 
@@ -98,7 +114,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><strong>Total: {{$total}} VNĐ</strong></td>
+                            <td><strong> <p id="total">Total: {{$total}} VNĐ</p></strong></td>
                             <td class="text-right"><strong></strong></td>
                         </tr>
                     </tbody>
@@ -108,7 +124,7 @@
         <div class="col mb-2">
             <div class="row">
                 <div class="col-sm-12  col-md-6">
-                    <button class="btn btn-block btn-light"><a href="/">Continue Shopping</a></button>
+                    <a href="/" class="btn btn-block btn-light">Continue Shopping</a>
                 </div>
                 <div class="col-sm-12 col-md-6 text-right">
                     <button class="btn btn-block btn-success">BUY</button>
@@ -117,12 +133,36 @@
         </div>
     </div>
 </div>
-<!-- <script type="text/javascript">
+
+<script type="text/javascript">
 $(document).ready(function(){
-    $('input#numberProduct').on('change',function(){
-       var id = $(this).parent.find("input").attr("id");
-       alert('123');
+    $('form#numberForm').on('change',function(){
+
+        var id = $(this).parent().find("input[name='number']").attr("id");
+        var number=$(this).parent().find("input[name='number']").val();
+        // var number = Number(num) + 1;
+        var product_id=$(this).parent().find("input[name='number']").attr("product_id");
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+        url: "http://laravelexample.test:81/cart/"+id,
+        type: 'PUT',
+
+        data: {id:id,product_id:product_id,number:number},
+        success: function(data){
+            if(data.success)
+            {   
+                // alert(data.success.price);
+                $('#number'+data.success.id).html(data.success.price+"VNĐ");
+                $('#total').html('Total:'+' '+data.total+' VNĐ');
+                // $('#kkk');
+            }
+        },
+    })
     })
 })
-</script> -->
+</script>
 @endsection
