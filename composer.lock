@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be3873bfe2684706d2dc62b204bba121",
+    "content-hash": "7d5d366b1371d4df1e0f049f6124d067",
     "packages": [
         {
             "name": "bumbummen99/shoppingcart",
@@ -5311,7 +5311,11 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "ext-bcmath": "*",
+        "ext-gd": "*"
     },
-    "platform-dev": []
+    "platform-dev": {
+        "ext-gd": "*"
+    }
 }
