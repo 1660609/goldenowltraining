@@ -1,5 +1,7 @@
 @extends('layouts.master')
-
+@section('sidebar')
+    @include('layouts.sidebar_user')
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

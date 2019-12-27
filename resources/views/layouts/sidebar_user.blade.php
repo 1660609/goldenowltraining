@@ -35,8 +35,11 @@
             @else
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        
+                        @if(isset(Auth::user()->profile->avatar))
                         <img src="/upload/avatar/{{Auth::user()->profile->avatar}}" class="img-circle" style="width: 50px;height: 50px;text-align: center;">
+                        @else
+                        <img src="/upload/avatar/default.jpg}}" class="img-circle" style="width: 50px;height: 50px;text-align: center;">
+                        @endif
                         {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
 

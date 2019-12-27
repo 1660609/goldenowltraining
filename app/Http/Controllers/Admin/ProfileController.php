@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use Intervention\Image\Facades\Image;
+use Auth;
 
 class ProfileController extends Controller
 {
@@ -63,6 +64,14 @@ class ProfileController extends Controller
         //
         $profile = Profile::where('user_id',$id)->first();
         //dd($profile);
+        //dd($profile);
+        if($profile == null)
+        {
+            $profile = Profile::create([
+                'user_id'=>Auth::user()->id
+            ]);
+            return view('admin.edit_profile',compact('profile'));
+        }
         return view('admin.edit_profile',compact('profile'));
     }
 
