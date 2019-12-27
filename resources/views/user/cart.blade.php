@@ -148,7 +148,7 @@ $(document).ready(function(){
             }
         });
         $.ajax({
-        url: "http://laravelexample.test:81/cart/"+id,
+        url: "/cart/"+id,
         type: 'PUT',
 
         data: {id:id,product_id:product_id,number:number},
