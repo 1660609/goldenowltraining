@@ -5,16 +5,10 @@
 @yield('css')
 </head>
 <body>
+@include('layouts.header_list')
 @yield('sidebar')
-<div style="padding-top: 2.22%;">
-    @yield('poster')
-</div>
-
 @include('layouts.flash')
-<div class="" style="margin-left: 170px;padding-top: 5%;padding-bottom: 10%;">
-    
-    @yield('content')
-</div>
+@yield('content')
 </body>
     @include('layouts.footer')
 </html>                                		                            

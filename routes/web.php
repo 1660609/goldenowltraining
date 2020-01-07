@@ -24,6 +24,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:web'],function(){
     Route::resource('/user','Admin\UserController');
     Route::get('/product/deleteGallery/{id}','Admin\ProductManage@deleteGallery')->name('product.delete.gallery');
     Route::resource('/profile','Admin\ProfileController');
+    Route::resource('/product/variant','Admin\VariantController');
     // 
 });
 Route::group(['prefix'=>'/'],function(){
@@ -31,5 +32,6 @@ Route::group(['prefix'=>'/'],function(){
     Route::resource('search','User\SearchController');
     Route::resource('categoryList','User\CategoryListController');
     Route::resource('cart','User\CartController');
+    Route::resource('buy','User\BuyController');
 });
 

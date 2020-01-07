@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Gallery;
+use App\Models\Detail;
 use App\Http\Requests\ProductRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
@@ -61,6 +62,7 @@ class ProductManage extends Controller
             'name'=> $request->name,
             'description'=>$request->description,
             'content'=>$request->content,
+            'address'=>$request->address,
             'thumbnail'=>$thumbnail,
             'price'=>(int)$request->price,
         ];

@@ -41,5 +41,14 @@ class AppServiceProvider extends ServiceProvider
             $category = Category::all();
             $view->with('category',$category);
         });
+        view()->composer('welcome',function($view){
+            $category = Category::all();
+            $category_pro = Category::with('product')->take(3)->get();
+            $view->with(['category'=>$category,'category_pro'=>$category_pro]);
+        });
+        view()->composer('user.product_category',function($view){
+            $categories = Category::all();
+            $view->with('categories',$categories);
+        });
     }
 }

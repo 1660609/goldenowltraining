@@ -20,6 +20,7 @@ class CreateProduct extends Migration
             $table->string('name');
             $table->string('description');
             $table->text('content')->nullable();
+            $table->string('address')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('gallery')->nullable();
             $table->float('price')->nullable();

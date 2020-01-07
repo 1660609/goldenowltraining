@@ -126,9 +126,9 @@
                 <div class="col-sm-12  col-md-6">
                     <a href="/" class="btn btn-block btn-light">Continue Shopping</a>
                 </div>
-                <div class="col-sm-12 col-md-6 text-right">
-                    <button class="btn btn-block btn-success">BUY</button>
-                </div>
+                <form action="{{route('buy.create')}}" method="GET">
+                        <button class="btn btn-block btn-success" type="submit">BUY</button>
+                </form>
             </div>
         </div>
     </div>

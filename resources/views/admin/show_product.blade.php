@@ -47,9 +47,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </style>
 @endsection
 @section('content')
-<div>
+<div class="col-lg-10 float-right mt-3">
     <h3>Product Manage</h3>
-    </div>
     <hr width="100%">
     <button class="btn btn-primary" style="float:right;margin-right:10px" type="submit" id="addProduct">+ Add Product</button>
     <form action="{{route('product.index')}}">
@@ -69,6 +68,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 <th scope="col">Category</th>
                 <th scope="col">Description</th>
                 <th scope="col">Content</th>
+                <th scope="col">Address</th>
                 <th scope="col">Gallery</th>
                 <th scope="col">Thumbnail</th>
                 <th scope="col">Price</th>
@@ -82,6 +82,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                     <td>{{$product->category_id}}</td>
                     <td>{{$product->description}}</td>
                     <td>{{$product->content}}</td>
+                    <td>{{$product->address}}</td>
                     <td>
                     @foreach ($product->galleries as $g)
                         <img src="/upload/gallery/{{$g->gallery_path}}" height="70" width="70"> 
@@ -104,75 +105,90 @@ body {font-family: Arial, Helvetica, sans-serif;}
                           <span class="octicon-pencil"></span> Delete
                         </button> 
                       </form>
+                      <form action="" method="">
+                        <button type="submit " class="btn btn-success" >
+                          <span class="octicon-pencil"></span> Variant
+                        </button>
+                      </form>
                     </td>
                 </tr>
               @endforeach
             </tbody>
         </table>
     </div>
-
+    <input class="form-control" type="text" id="color"/>
+        <script>
+            $('#color').colorpicker({});
+        </script>
     <div id="myModal" class="modal">
     <form id="addForm" method="POST" enctype="multipart/form-data">
     @csrf
-    <div class="modal-content">
+    <div class="modal-content" style="width:60%">
         <span class="close">&times;</span>
         <div class="alert alert-danger print-error-msg" style="display:none">
           <ul></ul>
       </div>
         <div class="alert " id="message" style="display: none"></div>
-        <h4>Add Product </h4>
-        <div class="form-group">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" >Name</span>
+        <center><h4 style="margin-bottom: 40px;">Add Product </h4></center>
+        <div class="row">
+          <div class="col-12">
+            <div class="col-8 ml-auto mr-auto">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >Name</span>
+                    </div>
+                    <input type="text" class="form-control" name="name" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
-                <input type="text" class="form-control" name="name" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-            </div>
-            <div class="form-group">
-            <label for="exampleFormControlSelect1">Category</label>
-            <select class="form-control" id="exampleFormControlSelect1" name="category_id">
-              @foreach ($categories as $c)
-              <option value="{{$c->id}}">{{$c->id}} - {{$c->name}} </option>
-              @endforeach
-            </select>
-          </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"  id="inputGroup-sizing-default">Description</span>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Category</label>
+                  <select class="form-control" id="exampleFormControlSelect1" name="category_id">
+                    @foreach ($categories as $c)
+                    <option value="{{$c->id}}">{{$c->id}} - {{$c->name}} </option>
+                    @endforeach
+                  </select>
                 </div>
-                <input type="text" class="form-control" name="description" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"  id="inputGroup-sizing-default">Content</span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"  id="inputGroup-sizing-default">Description</span>
+                    </div>
+                    <input type="text" class="form-control" name="description" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
-                <input type="text" class="form-control" name="content" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-            </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"  id="inputGroup-sizing-default">Content</span>
+                    </div>
+                    <input type="text" class="form-control" name="content" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
 
-            <div class="input-group">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile04" name="gallery[]" multiple="multiple">
-                <label class="custom-file-label" for="inputGroupFile04">Choose image gallery product</label>
-            </div>
-            <br><br>
-            </div>
-            <div class="input-group">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile04" name="thumbnail">
-                <label class="custom-file-label" for="inputGroupFile04">Choose image thumbnail</label>
-            </div>
-            </div>
-            <br>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"  id="inputGroup-sizing-default">Price</span>
+                <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04" name="gallery[]" multiple="multiple">
+                    <label class="custom-file-label" for="inputGroupFile04">Choose image gallery product</label>
                 </div>
-                <input type="number" class="form-control" name="price" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <br><br>
+                </div>
+                <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04" name="thumbnail">
+                    <label class="custom-file-label" for="inputGroupFile04">Choose image thumbnail</label>
+                </div>
+                </div>
+                <br>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"  id="inputGroup-sizing-default">Price</span>
+                    </div>
+                    <input type="number" class="form-control" name="price" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
             </div>
-        </div>
+          </div>
+          </div>
+
+        
         <button type="submit" class="btn btn-primary">Add product</button>
     </div>      
     </form>
+    </div>
     </div>
     <script>
     var modal = document.getElementById("myModal");
@@ -223,5 +239,29 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
     })
 
-      </script>
+    </script>
+    <script type="text/javascript">
+    const pickr1 = new Pickr({
+      el: '#color-picker-1',
+      default: "303030",
+      components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        interaction: {
+          hex: true,
+          rgba: true,
+          hsla: true,
+          hsva: true,
+          cmyk: true,
+          input: true,
+          clear: true,
+          save: true
+        }
+      }
+    });
+    </script>
+    </div>
+  </div>
 @endsection

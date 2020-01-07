@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\View;
+use Auth;
 
 class ProductAppController extends Controller
 {
@@ -12,9 +14,14 @@ class ProductAppController extends Controller
     {
         //
         $key = "";
+        $view = "";
         $product = Product::limit(5)->get();
          //$category = Category::all();
-        return view('welcome',compact('product','key'));
+        if(isset(Auth::user()->id))
+        {
+            $view = View::with('product')->where('user_id',Auth::user()->id)->get();
+        }
+        return view('welcome',compact('product','key','view'));
     }
     
     
@@ -49,6 +56,8 @@ class ProductAppController extends Controller
     {
         $product = Product::with('galleries','category')->find($id);
         $seeMore = Product::where('category_id',$product->category_id)->get();
+        $view = View::updateOrCreate(['user_id'=>Auth::user()->id,'product_id'=>$id],
+                                     ['view'=>'1']);
         return view('user.detail',compact('product','seeMore'));
     }
 
